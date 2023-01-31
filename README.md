@@ -43,6 +43,7 @@ client.c
 
 # How to compile?
 compile: gcc -Wall –o client client.c
+  
 run: ./client 
 
 
