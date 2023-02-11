@@ -166,7 +166,7 @@ int main(int argc, char **argv){
     if(host==NULL)
         host="";
     make_request_function(val_r,index_of_first_parameter_after_r, argv);
-    printf("HTTP request =\n%s\nLEN = %d\n", request, (int)strlen(request));
+    printf("HTTP request =\n%s\nLEN = %d", request, (int)strlen(request));
     if((hp = gethostbyname(host))==NULL){//I got the host ip address.
         herror("");// So, the ip is NULL.
         close(socket_fd);
@@ -207,8 +207,9 @@ int main(int argc, char **argv){
             delete_memory();
             exit(1);
         }
-        buff[sent] = 0;
-        printf("%s", buff);
+//        buff[sent] = 0;
+//        printf("%s", buff);
+        write(STDOUT_FILENO, buff, sent);
         size_read+=sent;
     }
     delete_memory();
@@ -436,7 +437,7 @@ void make_request_function(int val, int ind_of_first_param_after_r, char **argv 
         strcat(request, host);
 
     if(text!=NULL){
-        strcat(request, "\r\nContent-length:");
+        strcat(request, "\r\nContent-Length: ");
         char buffer[10];
         int value = (int)strlen(text);
         sprintf(buffer, "%d", value);
@@ -444,7 +445,7 @@ void make_request_function(int val, int ind_of_first_param_after_r, char **argv 
 
         strcat(request, "\r\n\r\n");
         strcat(request, text);
-        strcat(request, "\r\n");
+//        strcat(request, "\r\n");
         return;
     }
     if(text==NULL)
